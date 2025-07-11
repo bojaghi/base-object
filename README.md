@@ -68,15 +68,27 @@ use Bojaghi\BaseObjects\BaseObject;
 #[PostOrigin(post_type: 'post')]
 class MyObject extends BaseObject 
 {
+    // 포스트 ID 와 $id 필드를 연결하고, 이 필드가 PK임을 선언합니다.
     #[Primary]
     #[Post('ID')]
     public int $id;
     
+    // $title 프로퍼티는 post.post_title과 연결됩니다.
     #[Post('post_title')]
     public string $title;
     
-    #[PostMeta('my_field')]
+    // 포스트의 메타값을 씁니다. single=true 이어야 스칼라 값을 이용할 수 있습니다.
+    #[PostMeta(key: 'my_field', single: true)]
     public string $myField;
+    
+    // 위계적인 택소노미는, 예를 들어 카테고리, 텀 ID를 쓰는 것이 좋습니다. 여러 텀을 쓰지 않고 딱 1개만 사용합니다. (single = true)
+    #[PostTerm(taxonomy: 'my_cat', single: true, field: 'term_id')]
+    public int $myCat;
+     
+    // 평평한 택소노미는, 예를 들어 태그, 슬러그를 써도 괜찮습니다.
+    // 여러 태그 슬러그를 배열로 받습니다.
+    #[PostTerm(taxonomy: 'my_tag', single: false, field: 'slug')]
+    public array $tags;
 }
 ```
 

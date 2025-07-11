@@ -97,7 +97,7 @@ abstract class BaseObject
     {
         $origin = static::getOriginAttribute();
         if ($origin) {
-            return $origin->query(wp_parse_args($args));
+            return $origin->query(wp_parse_args($args), self::getFieldAttributes());
         } else {
             return new QueryResult();
         }
